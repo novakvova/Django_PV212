@@ -64,3 +64,9 @@ py manage.py shell
 >>>Post.objects.all()
 >>>exit()
 ```
+
+```
+.venv\Scripts\activate.bat
+cd blog
+py manage.py runserver 9178
+```
