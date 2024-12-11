@@ -8,7 +8,7 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("posts:list")
+            return redirect("news:list")
         # username = request.POST['firstname']
         # email = request.POST['email']
         # password = request.POST['password']
