@@ -70,3 +70,10 @@ py manage.py shell
 cd blog
 py manage.py runserver 9178
 ```
+
+Register user
+```
+.venv\Scripts\activate.bat
+cd blog
+py manage.py startapp users
+```

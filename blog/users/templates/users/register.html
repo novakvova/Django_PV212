@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Реєстрація
+{%endblock%}
+
+
+{% block content %}
+
+<div class="container">
+  <h1 class="text-center">
+    Реєстрація
+  </h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Реєструватися</button>
+</form>
+</div>
+
+{%endblock%}
