@@ -1,21 +1,87 @@
 {% extends "layout.html" %}
+{% load widget_tweaks %}
 
 {% block title %}
   Реєстрація
-{%endblock%}
-
+{% endblock %}
 
 {% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Реєстрація</h1>
+    <form id="registrationForm" class="needs-validation mx-auto" style="max-width: 500px;" novalidate method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="firstname" class="form-label">Ім'я</label>
+            {{form.username|add_class:"form-control"}}
+            {% comment %} <input type="text" class="form-control" id="firstname" name="username" required minlength="3" placeholder="Введіть ваше ім'я"> {% endcomment %}
+            <div class="invalid-feedback">Будь ласка, введіть ваше ім'я (мінімум 3 символи).</div>
+        </div>
 
-<div class="container">
-  <h1 class="text-center">
-    Реєстрація
-  </h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Реєструватися</button>
-</form>
+        {% comment %} <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Введіть вашу email-адресу">
+            <div class="invalid-feedback">Будь ласка, введіть правильний email.</div>
+        </div> {% endcomment %}
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            {{form.password1|add_class:"form-control"}}
+            {% comment %} <input type="password" class="form-control" id="password" name="password" required minlength="6" placeholder="Придумайте пароль"> {% endcomment %}
+            <div class="invalid-feedback">Пароль має містити щонайменше 6 символів.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Підтвердження паролю</label>
+            {{form.password2|add_class:"form-control"}}
+            {% comment %} <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Підтвердіть пароль"> {% endcomment %}
+            <div class="invalid-feedback">Паролі не співпадають.</div>
+        </div>
+
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" value="" id="terms" name="terms" required>
+            <label class="form-check-label" for="terms">
+                Погоджуюсь з умовами
+            </label>
+            <div class="invalid-feedback">Ви повинні погодитись з умовами перед відправкою форми.</div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>Зареєструватися</button>
+    </form>
 </div>
 
-{%endblock%}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('registrationForm');
+    const password = document.getElementById('password1');
+    const confirmPassword = document.getElementById('password2');
+    const termsCheckbox = document.getElementById('terms');
+    const submitButton = document.getElementById('submitBtn');
+
+    // Функція для активації/деактивації кнопки
+    const toggleSubmitButton = () => {
+      submitButton.disabled = !termsCheckbox.checked;  
+    };
+
+    // Стежити за змінами в чекбоксі
+    termsCheckbox.addEventListener('change', toggleSubmitButton);
+
+    form.addEventListener('submit', function (event) {
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Паролі не співпадають.");
+      } else {
+        confirmPassword.setCustomValidity("");
+      }
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      form.classList.add('was-validated');
+    });
+    toggleSubmitButton();
+  });
+</script>
+
+{% endblock %}
