@@ -29,9 +29,26 @@
                 </li>
               </ul>
               <ul class="navbar-nav">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{% url "users:register" %}">Реєстрація</a>
+                    <span class="nav-link text-light">Привіт {{ user.username }}</span>
                 </li>
+                <li class="nav-item">
+                    <form action="{% url 'users:logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link btn btn-link text-decoration-none">
+                            Вихід <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">Login <i class="bi bi-box-arrow-in-left"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:register' %}">Register <i class="bi bi-person-plus"></i></a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
