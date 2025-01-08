@@ -1,3 +1,7 @@
+py -m venv .venv
+
+.venv\Scripts\activate.bat
+
 pip install django
 
 python.exe -m pip install --upgrade pip
@@ -25,4 +29,6 @@ Qwerty1-
 py manage.py runserver 5092
 
 pip install djangorestframework
+
+pip install django-cors-headers
 
