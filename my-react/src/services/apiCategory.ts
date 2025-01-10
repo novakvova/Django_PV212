@@ -1,13 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {APP_ENV} from "../env";
+import {CategoryItem} from "./types.ts";
 
-// Define the type for your list items
-interface CategoryItem {
-    id: number,
-    name: string,
-    slug: string,
-    description: string,
-}
 
 // Define the API slice
 export const apiCategory = createApi({
