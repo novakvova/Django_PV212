@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
-import {APP_ENV} from "../../env";
-import {useGetListQuery} from "../../services/apiCategory.ts";
-import {CategoryItem} from "../../services/types.ts";
+// import {useEffect, useState} from "react";
+// import axios from "axios";
+// import {APP_ENV} from "../../env";
+import {useCreateCategoryMutation, useGetCategoriesQuery} from "../../services/apiCategory.ts";
+// import {CategoryItem} from "../../services/types.ts";
 
 const HomePage = () => {
 
 
-    const {data: list, isLoading, error} = useGetListQuery();
+    const {data: list, isLoading, error, refetch} = useGetCategoriesQuery();
     // console.log("DATA REDUX", list);
     // console.log("isLoading REDUX", isLoading);
     // console.log("error REDUX", error);
@@ -43,9 +43,26 @@ const HomePage = () => {
         </tr>
     ));
 
+    const [createCategory] = useCreateCategoryMutation();
+
+    const addNewCategoryClick = async () => {
+        try {
+            await createCategory({name: "ковбаса", slug: "kovbasa-slag", description: "Дуже крута ковбаса" })
+                .unwrap(); // unwrap для роботи з помилками
+            refetch(); // Повторний запит для оновлення списку
+            console.log('Категорію успішно створено');
+        } catch (error) {
+            console.error('Помилка при створенні категорії:', error);
+        }
+    }
+
     return (
         <>
             <h1>Home Page</h1>
+
+            <button onClick={addNewCategoryClick} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                Червона кнопка
+            </button>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
