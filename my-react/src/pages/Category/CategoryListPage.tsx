@@ -1,4 +1,5 @@
 import {useGetCategoriesQuery} from "../../services/apiCategory.ts";
+import {Link} from "react-router-dom";
 
 const CategoryListPage = () => {
 
@@ -46,9 +47,9 @@ const CategoryListPage = () => {
             </h1>
 
             <div className={"mb-4"}>
-                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                <Link to={"create"} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                     Додати
-                </button>
+                </Link>
             </div>
 
 
