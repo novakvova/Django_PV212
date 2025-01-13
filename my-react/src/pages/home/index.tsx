@@ -9,8 +9,8 @@ const HomePage = () => {
 
     const {data: list, isLoading, error, refetch} = useGetCategoriesQuery();
     // console.log("DATA REDUX", list);
-    // console.log("isLoading REDUX", isLoading);
-    // console.log("error REDUX", error);
+     console.log("isLoading REDUX", isLoading);
+     console.log("error REDUX", error);
     //RTK Query
 
     // const [myList, setMyList] = useState<CategoryItem[]>([]);
