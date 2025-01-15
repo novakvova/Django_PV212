@@ -22,23 +22,10 @@ const CategoryListPage = () => {
                 {category.description}
             </td>
             <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <Link to={`edit/${category.id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
             </td>
         </tr>
     ));
-
-    // const [createCategory] = useCreateCategoryMutation();
-
-    // const addNewCategoryClick = async () => {
-    //     try {
-    //         await createCategory({name: "ковбаса", slug: "kovbasa-slag", description: "Дуже крута ковбаса" })
-    //             .unwrap(); // unwrap для роботи з помилками
-    //         refetch(); // Повторний запит для оновлення списку
-    //         console.log('Категорію успішно створено');
-    //     } catch (error) {
-    //         console.error('Помилка при створенні категорії:', error);
-    //     }
-    // }
 
     return (
         <>
