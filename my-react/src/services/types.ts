@@ -1,5 +1,5 @@
 export interface ICategoryItem {
-    id?: number,
+    id: number,
     name: string,
     slug: string,
     description: string,

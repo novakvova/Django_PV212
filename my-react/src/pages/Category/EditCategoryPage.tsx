@@ -1,44 +1,41 @@
 import { Form, Input, Button, notification } from 'antd';
-import {ICategoryPostRequest} from "../../services/types.ts";
+import {ICategoryPutRequest} from "../../services/types.ts";
 import TextArea from "antd/es/input/TextArea";
-import {useNavigate} from "react-router-dom";
-import {useCreateCategoryMutation} from "../../services/apiCategory.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import {useGetCategoryQuery, useUpdateCategoryMutation} from "../../services/apiCategory.ts";
 
 const { Item } = Form;
 
 const EditCategoryPage = () => {
 
+    const { id } = useParams<{ id: string }>();
 
-    const [createCategory] = useCreateCategoryMutation();
+    const { data: category, isError, isLoading } = useGetCategoryQuery(Number(id));
 
-    const [form] = Form.useForm<ICategoryPostRequest>();
+
+    const [updateCategory] = useUpdateCategoryMutation();
+
+    const [form] = Form.useForm<ICategoryPutRequest>();
 
     const navigation = useNavigate();
 
-    const onFinish = async (values: ICategoryPostRequest) => {
+    const onFinish = async (values: ICategoryPutRequest) => {
         try {
+            const category = await updateCategory({...values, id: Number(id)}).unwrap();
+            console.log("Update category", category);
+            navigation("/categories");
 
-            // console.log("Create", values);
-
-            const response = await createCategory(values).unwrap();
-            console.log("Response:", response);
-
-            notification.success({
-                message: 'Успішна реєстрація',
-                description: 'Ви успішно зареєстровані!',
-            });
-
-            navigation("..");
-
-            // form.resetFields();
         } catch (err) {
-            console.error("Помилка cтворення категорії:", err);
+            console.error("Помилка редагування категорії:", err);
             notification.error({
-                message: 'Помилка cтворення категорії',
+                message: 'Помилка редагування категорії',
                 description: 'Щось пішло не так, спробуйте ще раз.',
             });
         }
     };
+
+    if (isLoading) return <div>Loading category...</div>;
+    if (isError) return <div>Error loading category.</div>;
 
     return (
         <div style={{maxWidth: '400px', margin: '0 auto'}}>
@@ -49,6 +46,11 @@ const EditCategoryPage = () => {
                 form={form}
                 onFinish={onFinish}
                 layout="vertical"
+                initialValues={{
+                    name: category?.name,
+                    slug: category?.slug,
+                    description: category?.description || '',
+                }}
             >
                 <Item
                     name="name"
@@ -84,7 +86,7 @@ const EditCategoryPage = () => {
 
                 <Item>
                     <Button type="primary" htmlType="submit" block>
-                        Створити категорію
+                        Оновити категорію
                     </Button>
                 </Item>
             </Form>

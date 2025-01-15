@@ -38,7 +38,8 @@ export const apiCategory = createApi({
                 url: `categories/${id}/`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (_, __, id) => [{ type: 'Category', id }],
+            // Інвалідовуємо весь список після видалення категорії
+            invalidatesTags: ["Category"], // Вся категорія інвалідовується після видалення
         }),
     }),
 });

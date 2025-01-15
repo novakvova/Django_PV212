@@ -1,5 +1,6 @@
-import {useGetCategoriesQuery} from "../../services/apiCategory.ts";
+import {useDeleteCategoryMutation, useGetCategoriesQuery} from "../../services/apiCategory.ts";
 import {Link} from "react-router-dom";
+import {Button, notification} from "antd";
 
 const CategoryListPage = () => {
 
@@ -7,6 +8,23 @@ const CategoryListPage = () => {
     // console.log("DATA REDUX", list);
     console.log("isLoading REDUX", isLoading);
     console.log("error REDUX", error);
+
+    const [deleteCategory] = useDeleteCategoryMutation(); // мутація для видалення категорії
+
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteCategory(id).unwrap();
+            notification.success({
+                message: 'Категорія видалена',
+                description: 'Категорія успішно видалена!',
+            });
+        } catch {
+            notification.error({
+                message: 'Помилка видалення категорії',
+                description: 'Щось пішло не так, спробуйте ще раз.',
+            });
+        }
+    };
     //RTK Query
 
     const mapData = list?.map((category) => (
@@ -23,6 +41,13 @@ const CategoryListPage = () => {
             </td>
             <td className="px-6 py-4">
                 <Link to={`edit/${category.id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                <Button
+                    type="primary"
+                    danger
+                    onClick={() => handleDelete(category.id)}
+                >
+                    Delete
+                </Button>
             </td>
         </tr>
     ));
