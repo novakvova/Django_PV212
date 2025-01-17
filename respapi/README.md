@@ -32,3 +32,10 @@ pip install djangorestframework
 
 pip install django-cors-headers
 
+py -m pip install Pillow
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+
