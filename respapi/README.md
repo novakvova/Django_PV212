@@ -38,4 +38,6 @@ python manage.py makemigrations
 
 python manage.py migrate
 
+py manage.py runserver 5092
+
 
